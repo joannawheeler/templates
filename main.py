@@ -28,22 +28,24 @@ shopping_list_html = """
 #          self.response.write('Hello world!')
 
 class Handler(webapp2.RequestHandler):
-        def write(self, *a, **kw):
-            self.response.out.write(*a, **kw)
-            
-        def render_str(self, template, **params):
-                t = jinja_env.get_template(template)
-                return t.render(params)
+  def write(self, *a, **kw):
+    self.response.out.write(*a, **kw)
 
-        def render(self, template, **kw):
-                self.write(self.render_str(template, **kw))
+  def render_str(self, template, **params):
+    t = jinja_env.get_template(template)
+    return t.render(params)
+
+  def render(self, template, **kw):
+    self.write(self.render_str(template, **kw))
 
 class MainPage(Handler):
-        def get(self):
-                self.render("shopping_list.html")
+  def get(self):
+    n = self.request.get("n")
+    self.render("shopping_list.html", n=n)
+
 #         output = form_html
 #         output_hidden = ""
-# 
+#
 #         items = self.request.get_all("food")
 #         #if any items are entered (if anyone types in a food)
 #         #apply the following string formatting
